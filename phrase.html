@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  </head>
+  <body>
+
+    
+    <div>
+      <h1 id="phrase"></h1>
+    </div>
+    <div>
+      <button class="btn-change">Click to discover</button>
+    </div>
+    <div><br>
+      <form id='form'>
+        <input type="text" name="add-phrase" id="add-phrase"></input>
+      </form>
+    </div>
+
+
+    <script type="text/javascript">
+
+    console.log($('input[name=add-phrase]').val())
+
+    var phrases = ["The best way is to keep it with"," Al bajar procure no meter el pie entre el coche y el anden","Mind the gap"];
+    
+    random = Math.floor((Math.random() * phrases.length));
+    $('#phrase').text(phrases[random])
+    
+    $('.btn-change').on('click', function () {
+      random = Math.floor((Math.random() * phrases.length));
+      $('#phrase').text(phrases[random])
+    });
+
+    $('#form').on('submit', function(event) {
+      event.preventDefault()
+      var e = jQuery.Event( "keydown", { keyCode: 13 } );
+      var a = jQuery.Event( "focus" )
+      if(e && a){
+        phrases.push($('input[name=add-phrase]').val());
+      }
+    });
+
+    
+    </script>
+  </body>
+</html>
