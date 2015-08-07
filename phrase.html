@@ -35,9 +35,9 @@
 
     $('#form').on('submit', function(event) {
       event.preventDefault()
-      var e = jQuery.Event( "keydown", { keyCode: 13 } );
-      var a = jQuery.Event( "focus" )
-      if(e && a){
+      var keydown = jQuery.Event( "keydown", { keyCode: 13 } );
+      var focus = jQuery.Event( "focus" )
+      if(keydown && focus){
         phrases.push($('input[name=add-phrase]').val());
       }
     });
