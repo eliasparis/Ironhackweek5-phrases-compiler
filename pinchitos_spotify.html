@@ -1,0 +1,51 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<form id="search" action="javascript:alert('hi');">
+		Artist:
+		<input id="artist" type="text" name="artist">
+		<input type="submit" value="Send">
+	</form>
+	<ul id="artists">
+	</ul>
+	<script>
+		$('#search').submit(function() {
+			var term = $('#artist');
+			var url = 'https://api.spotify.com/v1/search?type=artist&query=' + term;
+			$.get(url, function(result) {
+				console.log(result);
+				result.artists.items.forEach(function(artist) {
+					var name = artist.name;
+					var imageUrl = '';
+					if (artist.images.length) {
+						var imageUrl = artist.images[0].url;
+					}
+					albumId = 'a' + artist.id;
+					var code = name + ' ' + '<img src="' + imageUrl + '" width="50" height="50">';
+					code += '<button id="' + albumId + '">Album</button>';
+					code += '<ul id="s' + artist.id + '" class="albums"></ul>';
+					$('#artists').append('<li>' + code + '</li>');
+					$('#' + albumId).click(getHandler(artist.id));
+				});
+			});
+			return false;
+		});
+
+		function getHandler(id) {
+			return function() {
+				console.log('looking for ' + id);
+				var url = 'https://api.spotify.com/v1/artists/' + id + '/albums'
+				$.get(url, function(result) {
+					$('.albums').empty();
+					result.items.forEach(function(album) {
+						var imageUrl = '';
+						if (album.images.length) {
+							imageUrl = album.images[0].url;
+						}
+						var code = '<li>' + album.name + ' <img src="' + imageUrl + '" width="50" height="50"></li>'
+						$('#s' + id).append(code);
+					});
+				});
+			}
+		}
+	</script>
+</html>
